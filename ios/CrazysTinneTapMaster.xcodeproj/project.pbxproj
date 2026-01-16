@@ -12,6 +12,10 @@
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		B3F4D389EC69A70494FB8B29 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
+		D1BAE14A2F1A26750094EA86 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1BAE1492F1A26750094EA86 /* AVKit.framework */; };
+		D1BAE14C2F1A267B0094EA86 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1BAE14B2F1A267B0094EA86 /* AVFoundation.framework */; };
+		D1BAE14E2F1A26810094EA86 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1BAE14D2F1A26810094EA86 /* AudioToolbox.framework */; };
+		D1BAE1502F1A6BB60094EA86 /* winter-weather-427454.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D1BAE14F2F1A6BB50094EA86 /* winter-weather-427454.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +28,10 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-CrazysTinneTapMaster.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CrazysTinneTapMaster.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = CrazysTinneTapMaster/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = CrazysTinneTapMaster/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D1BAE1492F1A26750094EA86 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		D1BAE14B2F1A267B0094EA86 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		D1BAE14D2F1A26810094EA86 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		D1BAE14F2F1A6BB50094EA86 /* winter-weather-427454.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "winter-weather-427454.mp3"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -32,6 +40,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1BAE14E2F1A26810094EA86 /* AudioToolbox.framework in Frameworks */,
+				D1BAE14C2F1A267B0094EA86 /* AVFoundation.framework in Frameworks */,
+				D1BAE14A2F1A26750094EA86 /* AVKit.framework in Frameworks */,
 				0C80B921A6F3F58F76C31292 /* libPods-CrazysTinneTapMaster.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -54,6 +65,9 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D1BAE14D2F1A26810094EA86 /* AudioToolbox.framework */,
+				D1BAE14B2F1A267B0094EA86 /* AVFoundation.framework */,
+				D1BAE1492F1A26750094EA86 /* AVKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				5DCACB8F33CDC322A6C60F78 /* libPods-CrazysTinneTapMaster.a */,
 			);
@@ -75,6 +89,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				D1BAE14F2F1A6BB50094EA86 /* winter-weather-427454.mp3 */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -158,6 +173,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1BAE1502F1A6BB60094EA86 /* winter-weather-427454.mp3 in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				B3F4D389EC69A70494FB8B29 /* PrivacyInfo.xcprivacy in Resources */,
