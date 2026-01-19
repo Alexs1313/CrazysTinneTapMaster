@@ -69,7 +69,9 @@ const TinneSettings = () => {
   };
 
   const shareApp = async () => {
-    Linking.openURL('');
+    Linking.openURL(
+      'https://apps.apple.com/us/app/crazystinne-tap-master/id6758000290',
+    );
   };
 
   const toggleSound = async selectedValue => {
@@ -175,27 +177,27 @@ const TinneSettings = () => {
             How much time was spent in the game
           </Text>
           <Text style={styles.statValue}>{formattedTime(timeSpent)}</Text>
-        </View>
 
-        {Platform.OS === 'ios' && (
-          <View style={styles.bottomBar}>
-            <TouchableOpacity
-              onPress={shareApp}
-              activeOpacity={0.85}
-              style={{ width: '90%' }}
-            >
-              <LinearGradient
-                colors={gradientColors}
-                start={gradientXY}
-                end={gradientXYEnd}
-                style={styles.shareButton}
+          {Platform.OS === 'ios' && (
+            <View style={styles.bottomBar}>
+              <TouchableOpacity
+                onPress={shareApp}
+                activeOpacity={0.85}
+                style={{ width: '90%' }}
               >
-                <Text style={styles.shareText}>Share the app</Text>
-                <Image source={require('../assets/icons/share.png')} />
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
-        )}
+                <LinearGradient
+                  colors={gradientColors}
+                  start={gradientXY}
+                  end={gradientXYEnd}
+                  style={styles.shareButton}
+                >
+                  <Text style={styles.shareText}>Share the app</Text>
+                  <Image source={require('../assets/icons/share.png')} />
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
       </ScrollView>
     </ImageBackground>
   );
@@ -256,10 +258,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   bottomBar: {
-    position: 'absolute',
-    bottom: 40,
-    left: 0,
-    right: 0,
     alignItems: 'center',
   },
   shareButton: {
