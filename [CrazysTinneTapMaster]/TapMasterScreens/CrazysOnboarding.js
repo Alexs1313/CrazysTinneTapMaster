@@ -98,7 +98,7 @@ const CrazysOnboarding = () => {
                     borderRadius: 50,
                     marginHorizontal: 10,
                     backgroundColor:
-                      index <= currentTextIndex + 1 ? '#EA3385' : '#00000033',
+                      index === currentTextIndex + 1 ? '#EA3385' : '#FFFFFF33',
                   }}
                 />
               ))}
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   bottomSheet: {
-    backgroundColor: '#fff',
+    backgroundColor: '#100237',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     padding: 50,
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '800',
     marginBottom: 20,
-    color: '#A61154',
+    color: '#FFFFFF',
     textAlign: 'center',
   },
   secondTitle: {

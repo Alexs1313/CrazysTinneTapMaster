@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native';
-import { useEffect, useState } from 'react';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { use, useCallback, useEffect, useState } from 'react';
 import {
   Image,
   ImageBackground,
@@ -12,8 +12,8 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Utils and Store / locals imports
 import {
   getNumber,
   getArray,
@@ -25,6 +25,7 @@ import { crazysStories } from '../TinneTapData/crazysStories';
 const STORE_KEYS = {
   CLOCKS: 'TIME_CLOCKS',
   UNLOCKED_STORIES: 'UNLOCKED_STORIES',
+  SAVED_STORIES: 'SAVED_STORIES',
 };
 
 const gradientColors = ['#EA3385', '#A61154'];
@@ -36,37 +37,39 @@ const bgImage = require('../assets/images/app_background.png');
 const TapMasterStories = () => {
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
-
   const [clocks, setClocks] = useState(0);
   const [unlockedStories, setUnlockedStories] = useState([]);
+  const [savedStories, setSavedStories] = useState([]);
   const [selectedStory, setSelectedStory] = useState(null);
+  const [tab, setTab] = useState('all');
 
-  useEffect(() => {
-    const getSavedData = async () => {
-      try {
-        const savedClocks = await getNumber(STORE_KEYS.CLOCKS);
+  useFocusEffect(
+    useCallback(() => {
+      const loadData = async () => {
+        try {
+          const savedClocks = await getNumber(STORE_KEYS.CLOCKS);
+          const unlocked = await getArray(STORE_KEYS.UNLOCKED_STORIES);
+          const saved = await AsyncStorage.getItem(STORE_KEYS.SAVED_STORIES);
 
-        const savedUnlocked = await getArray(STORE_KEYS.UNLOCKED_STORIES);
+          const unlockedInit = unlocked.includes('story_1')
+            ? unlocked
+            : ['story_1', ...unlocked];
 
-        const initialUnlocked = savedUnlocked.includes('story_1')
-          ? savedUnlocked
-          : ['story_1', ...savedUnlocked];
+          setClocks(savedClocks);
+          setUnlockedStories(unlockedInit);
+          setSavedStories(saved ? JSON.parse(saved) : []);
 
-        setClocks(savedClocks);
-        setUnlockedStories(initialUnlocked);
+          await setArray(STORE_KEYS.UNLOCKED_STORIES, unlockedInit);
+        } catch (e) {
+          console.log('Load error', e);
+        }
+      };
 
-        await setArray(STORE_KEYS.UNLOCKED_STORIES, initialUnlocked);
-      } catch (error) {
-        console.error('Error unlocked stories:', error);
-      }
-    };
-
-    getSavedData();
-  }, []);
+      loadData();
+    }, []),
+  );
 
   const onStoryPress = story => {
-    console.log(story);
-
     if (unlockedStories.includes(story.id)) {
       navigation.navigate('StoryDetailsScreen', { storyId: story.id });
       return;
@@ -78,32 +81,31 @@ const TapMasterStories = () => {
   const unlockSelectedStory = async () => {
     if (!selectedStory) return;
 
-    try {
-      const newClocks = await spendClocks(10);
-
-      if (newClocks === false) {
-        Alert.alert('Not enough Clocks', 'You need 10 clocks.');
-        return;
-      }
-
-      const updatedUnlocked = [...unlockedStories, selectedStory];
-      await setArray(STORE_KEYS.UNLOCKED_STORIES, updatedUnlocked);
-
-      setUnlockedStories(updatedUnlocked);
-      setClocks(newClocks);
-
-      setSelectedStory(null);
-    } catch (error) {
-      console.error('catched story err', error);
+    const newClocks = await spendClocks(10);
+    if (newClocks === false) {
+      Alert.alert('Not enough Clocks', 'You need 10 clocks.');
+      return;
     }
+
+    const updated = [...unlockedStories, selectedStory];
+    await setArray(STORE_KEYS.UNLOCKED_STORIES, updated);
+
+    setUnlockedStories(updated);
+    setClocks(newClocks);
+    setSelectedStory(null);
   };
+
+  const visibleStories =
+    tab === 'all'
+      ? crazysStories
+      : crazysStories.filter(story => savedStories.includes(story.id));
 
   return (
     <ImageBackground source={bgImage} style={{ flex: 1 }}>
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
         bounces={false}
+        contentContainerStyle={{ flexGrow: 1 }}
       >
         <View
           style={{
@@ -133,7 +135,23 @@ const TapMasterStories = () => {
         </View>
 
         <View style={styles.sheet}>
-          {crazysStories.map(story => {
+          <View style={styles.tabs}>
+            <TouchableOpacity
+              onPress={() => setTab('all')}
+              style={[styles.tab, tab === 'all' && styles.tabActive]}
+            >
+              <Text style={styles.tabText}>All</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => setTab('saved')}
+              style={[styles.tab, tab === 'saved' && styles.tabActive]}
+            >
+              <Text style={styles.tabText}>Saved</Text>
+            </TouchableOpacity>
+          </View>
+
+          {visibleStories.map(story => {
             const unlocked = unlockedStories.includes(story.id);
             const selected = selectedStory === story.id;
 
@@ -147,15 +165,11 @@ const TapMasterStories = () => {
                   style={[styles.storyCard, selected && styles.storySelected]}
                   start={gradientXY}
                   end={gradientXYEnd}
-                  colors={unlocked ? gradientColors : ['#F6C1D6', '#F6C1D6']}
+                  colors={
+                    unlocked ? gradientColors : ['#a6115474', '#ea338579']
+                  }
                 >
-                  <View
-                    style={{
-                      padding: 10,
-                      paddingHorizontal: 20,
-                      width: '100%',
-                    }}
-                  >
+                  <View style={{ padding: 16 }}>
                     <Text style={styles.storyTitle}>{story.title}</Text>
                     <Text style={styles.storyPreview} numberOfLines={1}>
                       {story.preview}
@@ -170,7 +184,7 @@ const TapMasterStories = () => {
 
       {selectedStory && (
         <View style={styles.bottomBar}>
-          <TouchableOpacity onPress={unlockSelectedStory} activeOpacity={0.85}>
+          <TouchableOpacity onPress={unlockSelectedStory}>
             <LinearGradient
               colors={gradientColors}
               start={gradientXY}
@@ -190,47 +204,73 @@ const TapMasterStories = () => {
 
 const styles = StyleSheet.create({
   backBtn: {
-    backgroundColor: mainWhite,
     width: 70,
     height: 70,
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#E63182',
+    backgroundColor: '#100237',
   },
   clockRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: mainWhite,
     paddingHorizontal: 12,
     paddingVertical: 14,
     borderRadius: 30,
     minWidth: 100,
     justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#E63182',
+    backgroundColor: '#100237',
   },
   clockText: {
     fontSize: 20,
     fontWeight: '800',
     color: '#F9A300',
   },
-  sheet: {
+  tabs: {
+    flexDirection: 'row',
+    gap: 12,
+    padding: 20,
+  },
+  tab: {
     flex: 1,
-    backgroundColor: mainWhite,
+    height: 40,
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tabActive: {
+    backgroundColor: '#EA3385',
+    borderColor: '#fff',
+    borderWidth: 3,
+  },
+  tabText: {
+    color: mainWhite,
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  sheet: {
+    padding: 20,
+    flex: 1,
+    backgroundColor: '#100237',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     marginTop: 30,
-    padding: 20,
+    height: '100%',
   },
   storyCard: {
-    backgroundColor: '#F6C1D6',
     borderRadius: 40,
     marginBottom: 20,
-    width: '100%',
   },
   storySelected: {
     borderWidth: 1.3,
     borderColor: '#EA3385',
-    borderRadius: 30,
   },
   storyTitle: {
     color: mainWhite,

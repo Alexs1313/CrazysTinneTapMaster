@@ -183,7 +183,7 @@ const TinneSettings = () => {
               <TouchableOpacity
                 onPress={shareApp}
                 activeOpacity={0.85}
-                style={{ width: '90%' }}
+                style={{ width: '100%' }}
               >
                 <LinearGradient
                   colors={gradientColors}
@@ -205,7 +205,6 @@ const TinneSettings = () => {
 
 const styles = StyleSheet.create({
   backBtn: {
-    backgroundColor: mainWhite,
     width: 70,
     height: 70,
     borderRadius: 30,
@@ -213,10 +212,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     left: 20,
+    borderWidth: 1,
+    borderColor: '#E63182',
+    backgroundColor: '#100237',
   },
   sheet: {
     flex: 1,
-    backgroundColor: mainWhite,
+    backgroundColor: '#100237',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     marginTop: 30,
@@ -259,14 +261,18 @@ const styles = StyleSheet.create({
   },
   bottomBar: {
     alignItems: 'center',
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginTop: 30,
   },
   shareButton: {
     flexDirection: 'row',
     gap: 10,
     height: 70,
-    borderRadius: 35,
+    borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
+    width: '100%',
   },
   shareText: {
     color: mainWhite,

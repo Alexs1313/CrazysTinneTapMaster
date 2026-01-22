@@ -66,3 +66,30 @@ export const spendClocks = async amount => {
   await AsyncStorage.setItem('TIME_CLOCKS', String(clocks - amount));
   return clocks - amount;
 };
+
+// toggle story
+
+const SAVED_KEY = 'SAVED_STORIES';
+
+export const getSavedStories = async () => {
+  const data = await AsyncStorage.getItem(SAVED_KEY);
+  return data ? JSON.parse(data) : [];
+};
+
+export const saveStory = async storyId => {
+  const saved = await getSavedStories();
+  if (!saved.includes(storyId)) {
+    await AsyncStorage.setItem(SAVED_KEY, JSON.stringify([...saved, storyId]));
+  }
+};
+
+export const removeStory = async storyId => {
+  const saved = await getSavedStories();
+  const updated = saved.filter(id => id !== storyId);
+  await AsyncStorage.setItem(SAVED_KEY, JSON.stringify(updated));
+};
+
+export const isStorySaved = async storyId => {
+  const saved = await getSavedStories();
+  return saved.includes(storyId);
+};

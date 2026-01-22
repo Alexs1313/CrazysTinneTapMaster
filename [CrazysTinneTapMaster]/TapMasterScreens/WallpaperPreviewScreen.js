@@ -135,23 +135,27 @@ const WallpaperPreviewScreen = () => {
 
 const styles = StyleSheet.create({
   backBtn: {
-    backgroundColor: mainWhite,
     width: 70,
     height: 70,
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#E63182',
+    backgroundColor: '#100237',
   },
   clockRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: mainWhite,
+    backgroundColor: '#100237',
     paddingHorizontal: 12,
     paddingVertical: 14,
     borderRadius: 30,
     minWidth: 100,
     justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#E63182',
   },
   clockText: {
     fontSize: 20,
@@ -160,7 +164,7 @@ const styles = StyleSheet.create({
   },
   sheet: {
     flex: 1,
-    backgroundColor: mainWhite,
+    backgroundColor: '#100237',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     marginTop: 30,

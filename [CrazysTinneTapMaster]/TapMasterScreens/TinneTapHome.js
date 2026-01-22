@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   bottomSheet: {
-    backgroundColor: mainWhite,
+    backgroundColor: '#100237',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     padding: 50,

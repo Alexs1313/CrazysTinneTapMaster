@@ -12,8 +12,12 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { getNumber } from '../utils/tinneTapGameUtils';
 import { crazysStoriesContent } from '../TinneTapData/crazysStories';
+
+const SAVED_KEY = 'SAVED_STORIES';
 
 const gradientColors = ['#EA3385', '#A61154'];
 const gradientXY = { x: 0, y: 0 };
@@ -25,19 +29,17 @@ const StoryDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
   const { storyId } = route.params;
-  const [clocks, setClocks] = useState(0);
+
   const story = crazysStoriesContent[storyId];
 
-  console.log(story);
+  const [clocks, setClocks] = useState(0);
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     const loadClocks = async () => {
       try {
         const savedClocks = await getNumber('TIME_CLOCKS');
-
         setClocks(savedClocks);
-
-        console.log('loaded!!');
       } catch (error) {
         console.error('Error loading clocks:', error);
       }
@@ -45,6 +47,39 @@ const StoryDetailsScreen = ({ route }) => {
 
     loadClocks();
   }, []);
+
+  useEffect(() => {
+    const checkSaved = async () => {
+      try {
+        const data = await AsyncStorage.getItem(SAVED_KEY);
+        const savedStories = data ? JSON.parse(data) : [];
+        setSaved(savedStories.includes(storyId));
+      } catch (e) {
+        console.log('Check saved error', e);
+      }
+    };
+
+    checkSaved();
+  }, [storyId]);
+
+  const toggleSave = async () => {
+    try {
+      const data = await AsyncStorage.getItem(SAVED_KEY);
+      let savedStories = data ? JSON.parse(data) : [];
+
+      if (saved) {
+        savedStories = savedStories.filter(id => id !== storyId);
+      } else {
+        savedStories.push(storyId);
+      }
+
+      await AsyncStorage.setItem(SAVED_KEY, JSON.stringify(savedStories));
+
+      setSaved(!saved);
+    } catch (e) {
+      console.log('Toggle save error', e);
+    }
+  };
 
   const shareStory = async () => {
     try {
@@ -105,17 +140,35 @@ const StoryDetailsScreen = ({ route }) => {
             </LinearGradient>
           </View>
 
-          <TouchableOpacity onPress={shareStory} activeOpacity={0.85}>
-            <LinearGradient
-              colors={gradientColors}
-              start={gradientXY}
-              end={gradientXYEnd}
-              style={styles.shareButton}
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+          >
+            <TouchableOpacity
+              onPress={shareStory}
+              activeOpacity={0.85}
+              style={{ flex: 1, marginRight: 20 }}
             >
-              <Text style={styles.shareText}>Share the story</Text>
-              <Image source={require('../assets/icons/share.png')} />
-            </LinearGradient>
-          </TouchableOpacity>
+              <LinearGradient
+                colors={gradientColors}
+                start={gradientXY}
+                end={gradientXYEnd}
+                style={styles.shareButton}
+              >
+                <Text style={styles.shareText}>Share the story</Text>
+                <Image source={require('../assets/icons/share.png')} />
+              </LinearGradient>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={toggleSave} activeOpacity={0.8}>
+              <LinearGradient
+                colors={saved ? ['#100237', '#100237'] : gradientColors}
+                start={gradientXY}
+                end={gradientXYEnd}
+                style={styles.storySavedBtn}
+              >
+                <Image source={require('../assets/icons/bookmark.png')} />
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </ImageBackground>
@@ -124,18 +177,32 @@ const StoryDetailsScreen = ({ route }) => {
 
 const styles = StyleSheet.create({
   backBtn: {
-    backgroundColor: mainWhite,
+    borderWidth: 1,
+    borderColor: '#E63182',
+    backgroundColor: '#100237',
     width: 70,
     height: 70,
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  storySavedBtn: {
+    width: 70,
+    height: 70,
+    borderRadius: 30,
+    backgroundColor: '#100237',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#fff',
+  },
   clockRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    backgroundColor: mainWhite,
+    borderWidth: 1,
+    borderColor: '#E63182',
+    backgroundColor: '#100237',
     paddingHorizontal: 12,
     paddingVertical: 14,
     borderRadius: 30,
@@ -149,7 +216,7 @@ const styles = StyleSheet.create({
   },
   sheet: {
     flex: 1,
-    backgroundColor: mainWhite,
+    backgroundColor: '#100237',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     marginTop: 30,
