@@ -121,10 +121,20 @@ const TinneSettings = () => {
             <Image source={require('../assets/icons/back.png')} />
           </TouchableOpacity>
 
-          <Image
-            source={require('../assets/images/loader_icon.png')}
-            style={{ width: 108, height: 70, alignSelf: 'center' }}
-          />
+          {Platform.OS === 'ios' ? (
+            <Image
+              source={require('../assets/images/loader_icon.png')}
+              style={{ width: 108, height: 70 }}
+            />
+          ) : (
+            <Image
+              source={require('../assets/images/loadericon.png')}
+              style={{
+                width: 148,
+                height: 70,
+              }}
+            />
+          )}
         </View>
 
         <View style={styles.sheet}>

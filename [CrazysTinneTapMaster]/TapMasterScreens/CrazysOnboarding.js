@@ -3,6 +3,7 @@ import { useState } from 'react';
 import {
   Image,
   ImageBackground,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -14,27 +15,27 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const onboardingTexts = [
   {
-    tinneTitle: 'Stop Time Perfectly',
-    tinneDescription:
-      'Tap the screen and stop the timer as close as possible to the target second.',
+    tinneTitle: 'Master the Perfect Second',
+    tinneDescription: `Stop the timer as close as possible to the target moment.
+Precision matters — every millisecond counts.`,
     btnLabel: 'Next',
   },
   {
-    tinneTitle: 'Perfect Timing = Rewards',
-    tinneDescription:
-      'The more accurate your tap, the more Time Clocks you earn.',
+    tinneTitle: 'Timing Is a Skill',
+    tinneDescription: `Tap too early or too late and your score drops.
+Hit the perfect moment to build streaks and boost your result.`,
     btnLabel: 'Got it',
   },
   {
-    tinneTitle: 'Unlock Stories & Wallpapers',
-    tinneDescription:
-      'Spend Time Clocks to unlock short stories and exclusive phone wallpapers.',
+    tinneTitle: 'Progress Through Precision',
+    tinneDescription: `Improve your accuracy, increase your score,
+and unlock new challenges and visual rewards as you play.`,
     btnLabel: 'Sounds Cool',
   },
   {
-    tinneTitle: 'Make It Your Way',
-    tinneDescription:
-      'Turn music and vibration on or off, and track your total progress in settings.',
+    tinneTitle: 'Play. Improve. Repeat.',
+    tinneDescription: `Short sessions, increasing difficulty,
+and clear performance feedback after every round.`,
     btnLabel: 'Start Playing',
   },
 ];
@@ -62,10 +63,23 @@ const CrazysOnboarding = () => {
         bounces={false}
       >
         <View style={styles.mainContainer}>
-          <Image
-            source={require('../assets/images/loader_icon.png')}
-            style={[styles.onboardImage, { marginBottom: height * 0.13 }]}
-          />
+          {Platform.OS === 'ios' ? (
+            <Image
+              source={require('../assets/images/loader_icon.png')}
+              style={[styles.onboardImage, { marginBottom: height * 0.13 }]}
+            />
+          ) : (
+            <Image
+              source={require('../assets/images/loadericon.png')}
+              style={{
+                width: 450,
+                height: 200,
+                marginBottom: height * 0.13,
+                alignSelf: 'center',
+                marginTop: 14,
+              }}
+            />
+          )}
 
           <View style={[styles.bottomSheet, { minHeight: height * 0.45 }]}>
             <Text style={[styles.firstTitle, { marginBottom: height * 0.05 }]}>

@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import {
   Image,
   ImageBackground,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -174,10 +175,22 @@ const TinneTapHome = () => {
         bounces={false}
       >
         <View style={styles.mainContainer}>
-          <Image
-            source={require('../assets/images/loader_icon.png')}
-            style={[styles.onboardImage, { marginBottom: height * 0.06 }]}
-          />
+          {Platform.OS === 'ios' ? (
+            <Image
+              source={require('../assets/images/loader_icon.png')}
+              style={[styles.onboardImage, { marginBottom: height * 0.06 }]}
+            />
+          ) : (
+            <Image
+              source={require('../assets/images/loadericon.png')}
+              style={{
+                width: 350,
+                height: 200,
+                marginBottom: height * 0.06,
+                alignSelf: 'center',
+              }}
+            />
+          )}
 
           <View style={[styles.bottomSheet, { minHeight: height * 0.6 }]}>
             <View

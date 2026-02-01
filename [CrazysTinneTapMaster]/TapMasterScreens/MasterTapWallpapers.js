@@ -10,6 +10,7 @@ import {
   Text,
   Alert,
   useWindowDimensions,
+  Platform,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -121,10 +122,20 @@ const MasterTapWallpapers = () => {
             <Image source={require('../assets/icons/back.png')} />
           </TouchableOpacity>
 
-          <Image
-            source={require('../assets/images/loader_icon.png')}
-            style={{ width: 108, height: 70 }}
-          />
+          {Platform.OS === 'ios' ? (
+            <Image
+              source={require('../assets/images/loader_icon.png')}
+              style={{ width: 108, height: 70 }}
+            />
+          ) : (
+            <Image
+              source={require('../assets/images/loadericon.png')}
+              style={{
+                width: 148,
+                height: 70,
+              }}
+            />
+          )}
 
           <View style={styles.clockRow}>
             <Image source={require('../assets/images/quantImg.png')} />
@@ -247,7 +258,7 @@ const styles = StyleSheet.create({
   openButton: {
     flexDirection: 'row',
     gap: 10,
-    width: 260,
+    width: 268,
     height: 70,
     borderRadius: 35,
     justifyContent: 'center',
@@ -255,7 +266,7 @@ const styles = StyleSheet.create({
   },
   openText: {
     color: mainWhite,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '800',
   },
 });

@@ -10,6 +10,7 @@ import {
   View,
   Alert,
   useWindowDimensions,
+  Platform,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -123,10 +124,20 @@ const TapMasterStories = () => {
             <Image source={require('../assets/icons/back.png')} />
           </TouchableOpacity>
 
-          <Image
-            source={require('../assets/images/loader_icon.png')}
-            style={{ width: 108, height: 70 }}
-          />
+          {Platform.OS === 'ios' ? (
+            <Image
+              source={require('../assets/images/loader_icon.png')}
+              style={{ width: 108, height: 70 }}
+            />
+          ) : (
+            <Image
+              source={require('../assets/images/loadericon.png')}
+              style={{
+                width: 148,
+                height: 70,
+              }}
+            />
+          )}
 
           <View style={styles.clockRow}>
             <Image source={require('../assets/images/quantImg.png')} />

@@ -5,6 +5,7 @@ import {
   Image,
   ScrollView,
   ImageBackground,
+  Platform,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useNavigation } from '@react-navigation/native';
@@ -46,7 +47,14 @@ const WelcomeTapLoader = () => {
       >
         {showImage && (
           <View style={sty.imageWrapper} accessibilityLabel="loader-screen">
-            <Image source={require('../assets/images/loader_icon.png')} />
+            {Platform.OS === 'ios' ? (
+              <Image source={require('../assets/images/loader_icon.png')} />
+            ) : (
+              <Image
+                source={require('../assets/images/loadericon.png')}
+                style={{ width: 450, height: 450 }}
+              />
+            )}
           </View>
         )}
 

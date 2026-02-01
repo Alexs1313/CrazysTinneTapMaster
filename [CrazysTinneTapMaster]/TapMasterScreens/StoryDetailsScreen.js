@@ -9,6 +9,7 @@ import {
   Share,
   useWindowDimensions,
   ScrollView,
+  Platform,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useEffect, useState } from 'react';
@@ -29,9 +30,7 @@ const StoryDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
   const { storyId } = route.params;
-
   const story = crazysStoriesContent[storyId];
-
   const [clocks, setClocks] = useState(0);
   const [saved, setSaved] = useState(false);
 
@@ -114,10 +113,20 @@ const StoryDetailsScreen = ({ route }) => {
             <Image source={require('../assets/icons/back.png')} />
           </TouchableOpacity>
 
-          <Image
-            source={require('../assets/images/loader_icon.png')}
-            style={{ width: 108, height: 70 }}
-          />
+          {Platform.OS === 'ios' ? (
+            <Image
+              source={require('../assets/images/loader_icon.png')}
+              style={{ width: 108, height: 70 }}
+            />
+          ) : (
+            <Image
+              source={require('../assets/images/loadericon.png')}
+              style={{
+                width: 148,
+                height: 70,
+              }}
+            />
+          )}
 
           <View style={styles.clockRow}>
             <Image source={require('../assets/images/quantImg.png')} />

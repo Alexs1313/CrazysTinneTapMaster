@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import {
   Image,
   ImageBackground,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -195,10 +196,20 @@ const TapGameScreen = () => {
             <Image source={require('../assets/icons/back.png')} />
           </TouchableOpacity>
 
-          <Image
-            source={require('../assets/images/loader_icon.png')}
-            style={{ width: 108, height: 70 }}
-          />
+          {Platform.OS === 'ios' ? (
+            <Image
+              source={require('../assets/images/loader_icon.png')}
+              style={{ width: 108, height: 70 }}
+            />
+          ) : (
+            <Image
+              source={require('../assets/images/loadericon.png')}
+              style={{
+                width: 148,
+                height: 70,
+              }}
+            />
+          )}
 
           <View style={styles.clockRow}>
             <Image source={require('../assets/images/quantImg.png')} />
@@ -276,7 +287,7 @@ const TapGameScreen = () => {
               />
               <View style={styles.gameOverRow}>
                 <TouchableOpacity
-                  onPress={() => navigation.popToTop()}
+                  onPress={() => navigation.goBack()}
                   activeOpacity={0.7}
                 >
                   <LinearGradient
