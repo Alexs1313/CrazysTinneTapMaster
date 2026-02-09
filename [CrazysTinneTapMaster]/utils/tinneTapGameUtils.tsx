@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // game utils
 
-export const getNumber = async key => {
+export const getNumber = async (key: string): Promise<number> => {
   try {
     const value = await AsyncStorage.getItem(key);
 
@@ -14,7 +14,7 @@ export const getNumber = async key => {
   }
 };
 
-export const setNumber = async (key, value) => {
+export const setNumber = async (key: string, value: number): Promise<void> => {
   try {
     await AsyncStorage.setItem(key, value.toString());
   } catch (error) {
@@ -22,7 +22,10 @@ export const setNumber = async (key, value) => {
   }
 };
 
-export const incrementNumber = async (key, step = 1) => {
+export const incrementNumber = async (
+  key: string,
+  step = 1,
+): Promise<number> => {
   try {
     const current = await getNumber(key);
 
@@ -40,7 +43,7 @@ export const incrementNumber = async (key, step = 1) => {
 
 // stories utils
 
-export const getArray = async key => {
+export const getArray = async (key: string): Promise<any[]> => {
   try {
     const value = await AsyncStorage.getItem(key);
 
@@ -51,7 +54,7 @@ export const getArray = async key => {
   }
 };
 
-export const setArray = async (key, array) => {
+export const setArray = async (key: string, array: any[]): Promise<void> => {
   try {
     await AsyncStorage.setItem(key, JSON.stringify(array));
   } catch (error) {
@@ -59,7 +62,7 @@ export const setArray = async (key, array) => {
   }
 };
 
-export const spendClocks = async amount => {
+export const spendClocks = async (amount: number): Promise<number | false> => {
   const clocks = await getNumber('TIME_CLOCKS');
   if (clocks < amount) return false;
 
@@ -76,20 +79,20 @@ export const getSavedStories = async () => {
   return data ? JSON.parse(data) : [];
 };
 
-export const saveStory = async storyId => {
+export const saveStory = async (storyId: string): Promise<void> => {
   const saved = await getSavedStories();
   if (!saved.includes(storyId)) {
     await AsyncStorage.setItem(SAVED_KEY, JSON.stringify([...saved, storyId]));
   }
 };
 
-export const removeStory = async storyId => {
+export const removeStory = async (storyId: string): Promise<void> => {
   const saved = await getSavedStories();
   const updated = saved.filter(id => id !== storyId);
   await AsyncStorage.setItem(SAVED_KEY, JSON.stringify(updated));
 };
 
-export const isStorySaved = async storyId => {
+export const isStorySaved = async (storyId: string): Promise<boolean> => {
   const saved = await getSavedStories();
   return saved.includes(storyId);
 };

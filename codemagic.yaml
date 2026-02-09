@@ -1,19 +1,19 @@
 workflows:
   ios-workflow:
-    name: 'CrazysTinne:Tap Master'
+    name: 'ChazyTimes: Tap Master'
     max_build_duration: 120
     instance_type: mac_mini_m2
     integrations:
-      app_store_connect: CrazysTinneTapMasterAPIKey
+      app_store_connect: ChazyTimesTapMasterAPIKey
     environment:
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.CrazysTinneTapMaster
+        bundle_identifier: com.ChazyTimesTapMaster
       vars:
-        BUNDLE_ID: com.CrazysTinneTapMaster
+        BUNDLE_ID: com.ChazyTimesTapMaster
         XCODE_WORKSPACE: CrazysTinneTapMaster.xcworkspace
         XCODE_SCHEME: CrazysTinneTapMaster
-        APP_STORE_APPLE_ID: 6758000290
+        APP_STORE_APPLE_ID: 6758935257
     scripts:
       - name: Install npm dependencies
         script: |
@@ -44,4 +44,4 @@ workflows:
       app_store_connect:
         auth: integration
         submit_to_app_store: true
-        copyright: 'CrazysTinne:Tap Master 2026'
+        copyright: 'ChazyTimes: Tap Master 2026'

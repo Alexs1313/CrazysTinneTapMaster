@@ -297,7 +297,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.CrazysTinneTapMaster;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ChazyTimesTapMaster;
 				PRODUCT_NAME = CrazysTinneTapMaster;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -324,7 +324,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.CrazysTinneTapMaster;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ChazyTimesTapMaster;
 				PRODUCT_NAME = CrazysTinneTapMaster;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

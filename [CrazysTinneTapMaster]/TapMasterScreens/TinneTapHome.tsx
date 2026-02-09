@@ -28,6 +28,7 @@ const bgImage = require('../assets/images/app_background.png');
 const STORAGE_KEYS = {
   CLOCKS: 'TIME_CLOCKS',
   SCORE: 'GAME_SCORE',
+  MAX_RUN_SCORE: 'MAX_RUN_SCORE',
 };
 
 const TinneTapHome = () => {
@@ -52,8 +53,19 @@ const TinneTapHome = () => {
     useCallback(() => {
       loadCrazysTinneMusic();
       loadCrazysTinneVibration();
+      fetchSavedData();
     }, []),
   );
+
+  const fetchSavedData = async () => {
+    const savedClocks = await getNumber(STORAGE_KEYS.CLOCKS);
+
+    const maxRunStr = await AsyncStorage.getItem(STORAGE_KEYS.MAX_RUN_SCORE);
+    const savedMaxRun = Number(maxRunStr || '0');
+
+    setClocks(savedClocks);
+    setMaxScore(savedMaxRun);
+  };
 
   useEffect(() => {
     playCrazysTinneMusic(crazysTinneMusIdx);
@@ -141,20 +153,6 @@ const TinneTapHome = () => {
     }
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      const fetchSavedData = async () => {
-        const savedClocks = await getNumber(STORAGE_KEYS.CLOCKS);
-        const savedScore = await getNumber(STORAGE_KEYS.SCORE);
-
-        setClocks(savedClocks);
-        setMaxScore(savedScore);
-      };
-
-      fetchSavedData();
-    }, []),
-  );
-
   const loadCrazysTinneMusic = async () => {
     try {
       const tinneMusicValue = await AsyncStorage.getItem(
@@ -191,50 +189,40 @@ const TinneTapHome = () => {
               }}
             />
           )}
-
-          <View style={[styles.bottomSheet, { minHeight: height * 0.6 }]}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                gap: 10,
-                alignItems: 'center',
-                marginBottom: height * 0.04,
-              }}
-            >
-              <Text style={styles.firstTitle}>{clocks}</Text>
-              <Image source={require('../assets/images/quantImg.png')} />
-            </View>
-
-            <Text style={styles.secondTitle}>Max score:</Text>
-            <Text style={styles.scoreTxt}>{maxScore}</Text>
-
-            <TouchableOpacity
-              onPress={() => navigation.navigate('TapGameScreen')}
-              activeOpacity={0.8}
-            >
-              <LinearGradient
-                colors={gradientColors}
-                start={gradientXY}
-                end={gradientXYEnd}
-                style={styles.gradientButton}
+          <LinearGradient
+            colors={['#100237', '#3A0054']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{ borderTopLeftRadius: 50, borderTopRightRadius: 50 }}
+          >
+            <View style={[styles.bottomSheet, { minHeight: height * 0.6 }]}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  gap: 10,
+                  alignItems: 'center',
+                  marginBottom: height * 0.04,
+                }}
               >
-                <Text style={styles.gradientButtonText}>Start</Text>
-              </LinearGradient>
-            </TouchableOpacity>
+                <Text style={styles.firstTitle}>{clocks}</Text>
+                <Image source={require('../assets/images/quantImg.png')} />
+              </View>
 
-            <View style={styles.buttonsContainer}>
+              <Text style={styles.secondTitle}>Max score:</Text>
+              <Text style={styles.scoreTxt}>{maxScore}</Text>
+
               <TouchableOpacity
+                onPress={() => navigation.navigate('TapGameScreen')}
                 activeOpacity={0.8}
-                onPress={() => navigation.navigate('MasterTapWallpapers')}
               >
                 <LinearGradient
                   colors={gradientColors}
                   start={gradientXY}
                   end={gradientXYEnd}
-                  style={styles.gradientRoundButton}
+                  style={styles.gradientButton}
                 >
-                  <Image source={require('../assets/icons/vibration.png')} />
+                  <Text style={styles.gradientButtonText}>Start</Text>
                 </LinearGradient>
               </TouchableOpacity>
 
@@ -246,27 +234,60 @@ const TinneTapHome = () => {
                   colors={gradientColors}
                   start={gradientXY}
                   end={gradientXYEnd}
-                  style={styles.gradientRoundButton}
+                  style={styles.gradientButton}
                 >
-                  <Image source={require('../assets/icons/wallp.png')} />
+                  <Text style={styles.gradientButtonText}>Stories</Text>
                 </LinearGradient>
               </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() => navigation.navigate('TinneSettings')}
-                activeOpacity={0.8}
-              >
-                <LinearGradient
-                  colors={gradientColors}
-                  start={gradientXY}
-                  end={gradientXYEnd}
-                  style={styles.gradientRoundButton}
+              <View style={styles.buttonsContainer}>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() => navigation.navigate('MasterTapWallpapers')}
                 >
-                  <Image source={require('../assets/icons/settings.png')} />
-                </LinearGradient>
-              </TouchableOpacity>
+                  <LinearGradient
+                    colors={gradientColors}
+                    start={gradientXY}
+                    end={gradientXYEnd}
+                    style={styles.gradientRoundButton}
+                  >
+                    <Image source={require('../assets/icons/vibration.png')} />
+                  </LinearGradient>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('ProfileScreen')}
+                  activeOpacity={0.8}
+                >
+                  <LinearGradient
+                    colors={gradientColors}
+                    start={gradientXY}
+                    end={gradientXYEnd}
+                    style={styles.gradientRoundButton}
+                  >
+                    <Image
+                      source={require('../assets/icons/profile.png')}
+                      style={{ width: 34, height: 34 }}
+                    />
+                  </LinearGradient>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('TinneSettings')}
+                  activeOpacity={0.8}
+                >
+                  <LinearGradient
+                    colors={gradientColors}
+                    start={gradientXY}
+                    end={gradientXYEnd}
+                    style={styles.gradientRoundButton}
+                  >
+                    <Image source={require('../assets/icons/settings.png')} />
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
+          </LinearGradient>
         </View>
       </ScrollView>
     </ImageBackground>
@@ -279,9 +300,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   bottomSheet: {
-    backgroundColor: '#100237',
-    borderTopLeftRadius: 50,
-    borderTopRightRadius: 50,
     padding: 50,
   },
   firstTitle: {
