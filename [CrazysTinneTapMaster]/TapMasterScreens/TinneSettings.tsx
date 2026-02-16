@@ -76,7 +76,7 @@ const TinneSettings = () => {
 
   const tinneMasterShareApp = async () => {
     Linking.openURL(
-      'https://apps.apple.com/us/app/chazytimes-tap-master/id6758935257',
+      'https://apps.apple.com/us/app/chazytimes-tap-master/id6759247123',
     );
   };
 
