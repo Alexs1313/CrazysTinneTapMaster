@@ -263,8 +263,16 @@ const tinneMasterBackBtn = {
   borderColor: '#E63182',
 };
 
-const tinneMasterHeaderLogoIOS = { width: 108, height: 70 };
-const tinneMasterHeaderLogoAndroid = { width: 148, height: 70 };
+const tinneMasterHeaderLogoIOS = {
+  width: 108,
+  height: 70,
+  resizeMode: 'contain' as const,
+};
+const tinneMasterHeaderLogoAndroid = {
+  width: 148,
+  height: 70,
+  resizeMode: 'contain' as const,
+};
 
 const tinneMasterClockRow = {
   flexDirection: 'row' as const,

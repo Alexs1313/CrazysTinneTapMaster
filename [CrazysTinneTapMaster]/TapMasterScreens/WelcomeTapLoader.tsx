@@ -93,7 +93,11 @@ const tinneMasterImageWrapper = {
   alignItems: 'center' as const,
 };
 
-const tinneMasterLogo = { width: 450, height: 450 };
+const tinneMasterLogo = {
+  width: 250,
+  height: 250,
+  resizeMode: 'contain' as const,
+};
 
 const tinneMasterWebviewWrapper = {
   flex: 1,

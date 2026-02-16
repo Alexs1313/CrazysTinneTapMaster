@@ -345,9 +345,10 @@ const styles = StyleSheet.create({
   },
   onboardImage: {
     width: 258,
-    height: 167,
+    height: 197,
     alignSelf: 'center',
     marginTop: 40,
+    resizeMode: 'contain' as const,
   },
   buttonsContainer: {
     flexDirection: 'row',

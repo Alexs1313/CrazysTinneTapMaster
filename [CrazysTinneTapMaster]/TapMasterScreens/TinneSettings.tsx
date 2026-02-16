@@ -257,8 +257,16 @@ const tinneMasterBackBtn = {
   backgroundColor: '#100237',
 };
 
-const tinneMasterHeaderLogoIOS = { width: 108, height: 70 };
-const tinneMasterHeaderLogoAndroid = { width: 148, height: 70 };
+const tinneMasterHeaderLogoIOS = {
+  width: 108,
+  height: 70,
+  resizeMode: 'contain' as const,
+};
+const tinneMasterHeaderLogoAndroid = {
+  width: 148,
+  height: 70,
+  resizeMode: 'contain' as const,
+};
 
 const tinneMasterSheetGradientColors = ['#100237', '#3A0054'];
 const tinneMasterSheetGradientStart = { x: 0, y: 0 };

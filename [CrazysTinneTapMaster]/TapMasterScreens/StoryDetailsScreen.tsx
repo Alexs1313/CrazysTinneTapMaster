@@ -255,8 +255,16 @@ const tinneMasterHeaderRow = {
   paddingHorizontal: 20,
 };
 
-const tinneMasterHeaderLogoIOS = { width: 108, height: 74 };
-const tinneMasterHeaderLogoAndroid = { width: 148, height: 70 };
+const tinneMasterHeaderLogoIOS = {
+  width: 108,
+  height: 74,
+  resizeMode: 'contain' as const,
+};
+const tinneMasterHeaderLogoAndroid = {
+  width: 148,
+  height: 70,
+  resizeMode: 'contain' as const,
+};
 
 const tinneMasterBackBtn = {
   borderWidth: 1,
