@@ -18,7 +18,7 @@ const TapMasterNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="WelcomeTapLoader" component={WelcomeTapLoader} />
-      <Stack.Screen name="IntroduceScreen" component={IntroduceScreen} />
+      <Stack.Screen name="IntroduceScreen" component={IntroduceScren} />
       <Stack.Screen name="TinneTapHome" component={TinneTapHome} />
       <Stack.Screen name="TapGameScreen" component={TapGameScreen} />
       <Stack.Screen name="TapMasterStories" component={TapMasterStories} />
