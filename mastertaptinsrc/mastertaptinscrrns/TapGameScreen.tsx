@@ -1,3 +1,8 @@
+// tap game screen
+import { getNumber, incrementNumber } from '../utils/tinneTapGameUtils';
+import { useTinneStore } from '../mastertaptinstorage/tinneContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
@@ -12,10 +17,6 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-
-import { getNumber, incrementNumber } from '../utils/tinneTapGameUtils';
-import { useTinneStore } from '../MasterStore/tinneContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const tinneMasterGradientColors = ['#EA3385', '#A61154'];
 const tinneMasterGradientStart = { x: 0, y: 0 };
@@ -285,132 +286,118 @@ const TapGameScreen = () => {
             <Image source={require('../assets/icons/back.png')} />
           </TouchableOpacity>
 
-          <Image
-            source={tinneMasterHeaderImage}
-            style={tinneMasterHeaderLogoStyle}
-          />
-
           <View style={tinneMasterClockRow}>
             <Image source={require('../assets/images/quantImg.png')} />
             <Text style={tinneMasterClockText}>{tinneMasterClocks}</Text>
           </View>
         </View>
 
-        <LinearGradient
-          colors={tinneMasterSheetGradientColors}
-          start={tinneMasterSheetGradientStart}
-          end={tinneMasterSheetGradientEnd}
-          style={tinneMasterSheetGradientWrap}
-        >
-          <View style={tinneMasterSheet}>
-            <Text style={tinneMasterScoreLabel}>Score:</Text>
-            <Text
-              style={[tinneMasterScr, { marginBottom: tinneMasterScoreMb }]}
-            >
-              {tinneMasterRunScore}
-            </Text>
+        <View style={tinneMasterSheetGradientWrap}>
+          <Text style={tinneMasterScoreLabel}>Score:</Text>
+          <Text style={[tinneMasterScr, { marginBottom: tinneMasterScoreMb }]}>
+            {tinneMasterRunScore}
+          </Text>
 
-            {tinneMasterResult === 'idle' && (
-              <>
-                <Text style={tinneMasterTargetT}>
-                  {tinneMasterFormatTime(tinneMasterTargetTime)}
-                </Text>
-                <Text style={tinneMasterTimer}>
-                  {tinneMasterFormatTime(tinneMasterTime)}
-                </Text>
+          {tinneMasterResult === 'idle' && (
+            <>
+              <Text style={tinneMasterTargetT}>
+                {tinneMasterFormatTime(tinneMasterTargetTime)}
+              </Text>
+              <Text style={tinneMasterTimer}>
+                {tinneMasterFormatTime(tinneMasterTime)}
+              </Text>
 
+              <TouchableOpacity
+                onPress={
+                  tinneMasterRunning
+                    ? tinneMasterStopGame
+                    : tinneMasterStartGame
+                }
+                activeOpacity={0.7}
+              >
+                <LinearGradient
+                  colors={tinneMasterGradientColors}
+                  start={tinneMasterGradientStart}
+                  end={tinneMasterGradientEnd}
+                  style={tinneMasterBtn}
+                >
+                  <Text style={tinneMasterBtnText}>
+                    {tinneMasterRunning ? 'Stop' : 'Start'}
+                  </Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            </>
+          )}
+
+          {tinneMasterResult === 'awesome' && (
+            <>
+              <Image
+                source={require('../assets/images/awesome.png')}
+                style={tinneMasterResultImg}
+              />
+              <NextButtonTinneMaster />
+            </>
+          )}
+
+          {tinneMasterResult === 'good' && (
+            <>
+              <Image
+                source={require('../assets/images/good.png')}
+                style={tinneMasterResultImg}
+              />
+              <NextButtonTinneMaster />
+            </>
+          )}
+
+          {tinneMasterResult === 'not_bad' && (
+            <>
+              <Image
+                source={require('../assets/images/not_bad.png')}
+                style={tinneMasterResultImg}
+              />
+              <NextButtonTinneMaster />
+            </>
+          )}
+
+          {tinneMasterResult === 'lose' && (
+            <>
+              <Image
+                source={require('../assets/images/game_over.png')}
+                style={tinneMasterResultImg}
+              />
+
+              <View style={tinneMasterGameOverRow}>
                 <TouchableOpacity
-                  onPress={
-                    tinneMasterRunning
-                      ? tinneMasterStopGame
-                      : tinneMasterStartGame
-                  }
+                  onPress={() => tinneMasterNavigation.goBack()}
                   activeOpacity={0.7}
                 >
                   <LinearGradient
                     colors={tinneMasterGradientColors}
                     start={tinneMasterGradientStart}
                     end={tinneMasterGradientEnd}
-                    style={tinneMasterBtn}
+                    style={tinneMasterRoundBtn}
                   >
-                    <Text style={tinneMasterBtnText}>
-                      {tinneMasterRunning ? 'Stop' : 'Start'}
-                    </Text>
+                    <Image source={require('../assets/icons/home.png')} />
                   </LinearGradient>
                 </TouchableOpacity>
-              </>
-            )}
 
-            {tinneMasterResult === 'awesome' && (
-              <>
-                <Image
-                  source={require('../assets/images/awesome.png')}
-                  style={tinneMasterResultImg}
-                />
-                <NextButtonTinneMaster />
-              </>
-            )}
-
-            {tinneMasterResult === 'good' && (
-              <>
-                <Image
-                  source={require('../assets/images/good.png')}
-                  style={tinneMasterResultImg}
-                />
-                <NextButtonTinneMaster />
-              </>
-            )}
-
-            {tinneMasterResult === 'not_bad' && (
-              <>
-                <Image
-                  source={require('../assets/images/not_bad.png')}
-                  style={tinneMasterResultImg}
-                />
-                <NextButtonTinneMaster />
-              </>
-            )}
-
-            {tinneMasterResult === 'lose' && (
-              <>
-                <Image
-                  source={require('../assets/images/game_over.png')}
-                  style={tinneMasterResultImg}
-                />
-
-                <View style={tinneMasterGameOverRow}>
-                  <TouchableOpacity
-                    onPress={() => tinneMasterNavigation.goBack()}
-                    activeOpacity={0.7}
+                <TouchableOpacity
+                  onPress={tinneMasterStartGame}
+                  activeOpacity={0.7}
+                >
+                  <LinearGradient
+                    colors={tinneMasterGradientColors}
+                    start={tinneMasterGradientStart}
+                    end={tinneMasterGradientEnd}
+                    style={tinneMasterRoundBtn}
                   >
-                    <LinearGradient
-                      colors={tinneMasterGradientColors}
-                      start={tinneMasterGradientStart}
-                      end={tinneMasterGradientEnd}
-                      style={tinneMasterRoundBtn}
-                    >
-                      <Image source={require('../assets/icons/home.png')} />
-                    </LinearGradient>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    onPress={tinneMasterStartGame}
-                    activeOpacity={0.7}
-                  >
-                    <LinearGradient
-                      colors={tinneMasterGradientColors}
-                      start={tinneMasterGradientStart}
-                      end={tinneMasterGradientEnd}
-                      style={tinneMasterRoundBtn}
-                    >
-                      <Image source={require('../assets/icons/restart.png')} />
-                    </LinearGradient>
-                  </TouchableOpacity>
-                </View>
-              </>
-            )}
-          </View>
-        </LinearGradient>
+                    <Image source={require('../assets/icons/restart.png')} />
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
+        </View>
       </ScrollView>
     </ImageBackground>
   );
@@ -469,20 +456,15 @@ const tinneMasterClockText = {
   marginLeft: 8,
 };
 
-const tinneMasterSheetGradientColors = ['#100237', '#3A0054'];
-const tinneMasterSheetGradientStart = { x: 0, y: 0 };
-const tinneMasterSheetGradientEnd = { x: 1, y: 0 };
-
 const tinneMasterSheetGradientWrap = {
   flex: 1,
   borderTopLeftRadius: 50,
   borderTopRightRadius: 50,
   marginTop: 30,
-};
-
-const tinneMasterSheet = {
+  paddingHorizontal: 20,
+  paddingVertical: 40,
+  backgroundColor: '#100237',
   alignItems: 'center' as const,
-  paddingTop: 60,
 };
 
 const tinneMasterScoreLabel = {

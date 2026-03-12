@@ -1,5 +1,11 @@
+// settings screen
+import { getNumber } from '../utils/tinneTapGameUtils';
+
+import { useTinneStore } from '../mastertaptinstorage/tinneContext';
+
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useCallback, useState } from 'react';
+
 import {
   Image,
   ImageBackground,
@@ -14,9 +20,6 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { getNumber } from '../utils/tinneTapGameUtils';
-import { useTinneStore } from '../MasterStore/tinneContext';
-
 const tinneMasterStoreKeys = {
   TOTAL_CATCHES: 'TOTAL_CATCHES',
   TOTAL_TIME: 'TOTAL_TIME',
@@ -26,7 +29,7 @@ const tinneMasterGradientColors = ['#EA3385', '#A61154'];
 const tinneMasterGradientStart = { x: 0, y: 0 };
 const tinneMasterGradientEnd = { x: 1, y: 0 };
 
-const tinneMasterWhite = '#FFFFFF';
+const tinneMasterWhite = '#A61154';
 const tinneMasterBgImage = require('../assets/images/app_background.png');
 
 const tinneMasterHeaderImageIOS = require('../assets/images/loader_icon.png');
@@ -131,104 +134,90 @@ const TinneSettings = () => {
           style={[tinneMasterTopWrap, { paddingTop: tinneMasterHeaderPadTop }]}
         >
           <TouchableOpacity
-            style={[tinneMasterBackBtn, { top: tinneMasterHeaderPadTop }]}
+            style={[tinneMasterBackBtn]}
             onPress={() => tinneMasterNavigation.goBack()}
           >
             <Image source={require('../assets/icons/back.png')} />
           </TouchableOpacity>
-
-          <Image
-            source={tinneMasterHeaderImage}
-            style={tinneMasterHeaderLogoStyle}
-          />
         </View>
 
-        <LinearGradient
-          colors={tinneMasterSheetGradientColors}
-          start={tinneMasterSheetGradientStart}
-          end={tinneMasterSheetGradientEnd}
-          style={tinneMasterSheetGradientWrap}
-        >
-          <View style={tinneMasterSheet}>
-            {Platform.OS === 'ios' && (
-              <View style={tinneMasterSettRow}>
-                <Text style={tinneMasterRowText}>Music</Text>
-                <TouchableOpacity
-                  onPress={() =>
-                    tinneMasterToggleSound(!tinneMasterMusicEnabled)
-                  }
-                  activeOpacity={0.7}
-                >
-                  <Image
-                    source={
-                      tinneMasterMusicEnabled
-                        ? require('../assets/images/switchon.png')
-                        : require('../assets/images/switchoff.png')
-                    }
-                  />
-                </TouchableOpacity>
-              </View>
-            )}
-
-            <View style={tinneMasterDivider} />
-
+        <View style={tinneMasterSheetGradientWrap}>
+          {Platform.OS === 'ios' && (
             <View style={tinneMasterSettRow}>
-              <Text style={tinneMasterRowText}>Vibration</Text>
+              <Text style={tinneMasterRowText}>Music</Text>
               <TouchableOpacity
-                onPress={() =>
-                  tinneMasterToggleVibration(!tinneMasterVibrationEnabled)
-                }
+                onPress={() => tinneMasterToggleSound(!tinneMasterMusicEnabled)}
                 activeOpacity={0.7}
               >
                 <Image
                   source={
-                    tinneMasterVibrationEnabled
+                    tinneMasterMusicEnabled
                       ? require('../assets/images/switchon.png')
                       : require('../assets/images/switchoff.png')
                   }
                 />
               </TouchableOpacity>
             </View>
+          )}
 
-            <View style={tinneMasterDivider} />
+          <View style={tinneMasterDivider} />
 
-            <Text style={tinneMasterSectionTitle}>Statistics</Text>
-
-            <Text style={tinneMasterStatLabel}>
-              How many times was time caught:
-            </Text>
-            <Text style={tinneMasterStatValue}>{tinneMasterCatches}</Text>
-
-            <View style={tinneMasterDivider} />
-
-            <Text style={tinneMasterStatLabel}>
-              How much time was spent in the game
-            </Text>
-            <Text style={tinneMasterStatValue}>
-              {tinneMasterFormattedTime(tinneMasterTimeSpent)}
-            </Text>
-
-            {Platform.OS === 'ios' && (
-              <View style={tinneMasterBottomBar}>
-                <TouchableOpacity
-                  onPress={tinneMasterShareApp}
-                  activeOpacity={0.85}
-                  style={tinneMasterFullWidth}
-                >
-                  <LinearGradient
-                    colors={tinneMasterGradientColors}
-                    start={tinneMasterGradientStart}
-                    end={tinneMasterGradientEnd}
-                    style={tinneMasterShareButton}
-                  >
-                    <Text style={tinneMasterShareText}>Share the app</Text>
-                    <Image source={require('../assets/icons/share.png')} />
-                  </LinearGradient>
-                </TouchableOpacity>
-              </View>
-            )}
+          <View style={tinneMasterSettRow}>
+            <Text style={tinneMasterRowText}>Vibration</Text>
+            <TouchableOpacity
+              onPress={() =>
+                tinneMasterToggleVibration(!tinneMasterVibrationEnabled)
+              }
+              activeOpacity={0.7}
+            >
+              <Image
+                source={
+                  tinneMasterVibrationEnabled
+                    ? require('../assets/images/switchon.png')
+                    : require('../assets/images/switchoff.png')
+                }
+              />
+            </TouchableOpacity>
           </View>
-        </LinearGradient>
+
+          <View style={tinneMasterDivider} />
+
+          <Text style={tinneMasterSectionTitle}>Statistics</Text>
+
+          <Text style={tinneMasterStatLabel}>
+            How many times was time caught:
+          </Text>
+          <Text style={tinneMasterStatValue}>{tinneMasterCatches}</Text>
+
+          <View style={tinneMasterDivider} />
+
+          <Text style={tinneMasterStatLabel}>
+            How much time was spent in the game
+          </Text>
+          <Text style={tinneMasterStatValue}>
+            {tinneMasterFormattedTime(tinneMasterTimeSpent)}
+          </Text>
+
+          {Platform.OS === 'ios' && (
+            <View style={tinneMasterBottomBar}>
+              <TouchableOpacity
+                onPress={tinneMasterShareApp}
+                activeOpacity={0.85}
+                style={tinneMasterFullWidth}
+              >
+                <LinearGradient
+                  colors={tinneMasterGradientColors}
+                  start={tinneMasterGradientStart}
+                  end={tinneMasterGradientEnd}
+                  style={tinneMasterShareButton}
+                >
+                  <Text style={tinneMasterShareText}>Share the app</Text>
+                  <Image source={require('../assets/icons/share.png')} />
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
       </ScrollView>
     </ImageBackground>
   );
@@ -240,7 +229,7 @@ const tinneMasterBg = { flex: 1 };
 const tinneMasterScrollGrow = { flexGrow: 1 };
 
 const tinneMasterTopWrap = {
-  alignItems: 'center' as const,
+  alignItems: 'flex-start' as const,
   paddingHorizontal: 20,
 };
 
@@ -250,8 +239,6 @@ const tinneMasterBackBtn = {
   borderRadius: 30,
   justifyContent: 'center' as const,
   alignItems: 'center' as const,
-  position: 'absolute' as const,
-  left: 20,
   borderWidth: 1,
   borderColor: '#E63182',
   backgroundColor: '#100237',
@@ -268,20 +255,13 @@ const tinneMasterHeaderLogoAndroid = {
   resizeMode: 'contain' as const,
 };
 
-const tinneMasterSheetGradientColors = ['#100237', '#3A0054'];
-const tinneMasterSheetGradientStart = { x: 0, y: 0 };
-const tinneMasterSheetGradientEnd = { x: 1, y: 0 };
-
 const tinneMasterSheetGradientWrap = {
   flex: 1,
   borderTopLeftRadius: 50,
   borderTopRightRadius: 50,
   marginTop: 30,
-};
-
-const tinneMasterSheet = {
   padding: 30,
-  flex: 1,
+  backgroundColor: '#100237',
 };
 
 const tinneMasterSettRow = {
@@ -342,7 +322,7 @@ const tinneMasterShareButton = {
 };
 
 const tinneMasterShareText = {
-  color: tinneMasterWhite,
+  color: '#FFFFFF',
   fontSize: 20,
   fontWeight: '800' as const,
   marginRight: 10,

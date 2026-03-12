@@ -1,3 +1,10 @@
+import {
+  getNumber,
+  getArray,
+  setArray,
+  spendClocks,
+} from '../utils/tinneTapGameUtils';
+
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useCallback, useState } from 'react';
 import {
@@ -14,13 +21,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {
-  getNumber,
-  getArray,
-  setArray,
-  spendClocks,
-} from '../utils/tinneTapGameUtils';
-import { crazysStories } from '../TinneTapData/crazysStories';
+import { crazysStories } from '../[mastertaptdtaa]/crazysStories';
 
 const tinneMasterStoreKeys = {
   CLOCKS: 'TIME_CLOCKS',
@@ -165,11 +166,6 @@ const TapMasterStories = () => {
           >
             <Image source={require('../assets/icons/back.png')} />
           </TouchableOpacity>
-
-          <Image
-            source={tinneMasterHeaderImage}
-            style={tinneMasterHeaderLogoStyle}
-          />
 
           <View style={tinneMasterClockRow}>
             <Image source={require('../assets/images/quantImg.png')} />

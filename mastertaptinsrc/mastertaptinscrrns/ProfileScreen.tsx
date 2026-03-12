@@ -1,3 +1,6 @@
+import LinearGradient from 'react-native-linear-gradient';
+import { launchImageLibrary } from 'react-native-image-picker';
+
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
@@ -12,9 +15,8 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import LinearGradient from 'react-native-linear-gradient';
-import { launchImageLibrary } from 'react-native-image-picker';
 
 const tinneMasterBgImage = require('../assets/images/app_background.png');
 const tinneMasterHeaderImageIOS = require('../assets/images/loader_icon.png');

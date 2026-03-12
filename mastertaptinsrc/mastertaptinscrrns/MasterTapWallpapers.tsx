@@ -1,5 +1,15 @@
+// wallpapers screen
+
+import {
+  getArray,
+  getNumber,
+  setArray,
+  spendClocks,
+} from '../utils/tinneTapGameUtils';
+
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
+
 import {
   Alert,
   Image,
@@ -11,13 +21,8 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
+
 import LinearGradient from 'react-native-linear-gradient';
-import {
-  getArray,
-  getNumber,
-  setArray,
-  spendClocks,
-} from '../utils/tinneTapGameUtils';
 
 // ---------- assets / consts ----------
 const tinneMasterBgImage = require('../assets/images/app_background.png');
@@ -158,58 +163,42 @@ const MasterTapWallpapers = () => {
             <Image source={require('../assets/icons/back.png')} />
           </TouchableOpacity>
 
-          <Image
-            source={tinneMasterHeaderImage}
-            style={
-              Platform.OS === 'ios'
-                ? tinneMasterHeaderLogoIOS
-                : tinneMasterHeaderLogoAndroid
-            }
-          />
-
           <View style={tinneMasterClockRow}>
             <Image source={require('../assets/images/quantImg.png')} />
             <Text style={tinneMasterClockText}>{tinneMasterClocks}</Text>
           </View>
         </View>
 
-        <LinearGradient
-          colors={tinneMasterSheetGradientColors}
-          start={tinneMasterSheetGradientStart}
-          end={tinneMasterSheetGradientEnd}
-          style={tinneMasterSheetGradientWrap}
-        >
-          <View style={tinneMasterSheet}>
-            <View style={tinneMasterGrid}>
-              {tinneMasterWallpapers.map(item => {
-                const tinneMasterIsUnlocked = tinneMasterUnlockedIds.includes(
-                  item.id,
-                );
-                const tinneMasterIsSelected = tinneMasterSelectedId === item.id;
+        <View style={tinneMasterSheetGradientWrap}>
+          <View style={tinneMasterGrid}>
+            {tinneMasterWallpapers.map(item => {
+              const tinneMasterIsUnlocked = tinneMasterUnlockedIds.includes(
+                item.id,
+              );
+              const tinneMasterIsSelected = tinneMasterSelectedId === item.id;
 
-                return (
-                  <TouchableOpacity
-                    key={item.id}
-                    activeOpacity={0.9}
-                    onPress={() => tinneMasterOnWallpaperPress(item)}
+              return (
+                <TouchableOpacity
+                  key={item.id}
+                  activeOpacity={0.9}
+                  onPress={() => tinneMasterOnWallpaperPress(item)}
+                  style={[
+                    tinneMasterWallCard,
+                    tinneMasterIsSelected && tinneMasterWallSelected,
+                  ]}
+                >
+                  <Image
+                    source={item.image}
                     style={[
-                      tinneMasterWallCard,
-                      tinneMasterIsSelected && tinneMasterWallSelected,
+                      tinneMasterWallImage,
+                      !tinneMasterIsUnlocked && tinneMasterWallLocked,
                     ]}
-                  >
-                    <Image
-                      source={item.image}
-                      style={[
-                        tinneMasterWallImage,
-                        !tinneMasterIsUnlocked && tinneMasterWallLocked,
-                      ]}
-                    />
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
+                  />
+                </TouchableOpacity>
+              );
+            })}
           </View>
-        </LinearGradient>
+        </View>
       </ScrollView>
 
       {!!tinneMasterSelectedId && (
@@ -294,19 +283,13 @@ const tinneMasterClockText = {
   marginLeft: 8,
 };
 
-const tinneMasterSheetGradientColors = ['#100237', '#3A0054'];
-const tinneMasterSheetGradientStart = { x: 0, y: 0 };
-const tinneMasterSheetGradientEnd = { x: 1, y: 0 };
-
 const tinneMasterSheetGradientWrap = {
   flex: 1,
   borderTopLeftRadius: 50,
   borderTopRightRadius: 50,
   marginTop: 30,
-};
-
-const tinneMasterSheet = {
   padding: 20,
+  backgroundColor: '#100237',
 };
 
 const tinneMasterGrid = {

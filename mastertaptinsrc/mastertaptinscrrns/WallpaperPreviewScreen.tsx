@@ -1,4 +1,10 @@
+// wallpaper preview screen
+
+import RNFS from 'react-native-fs';
+import Share from 'react-native-share';
+
 import { useNavigation, useRoute } from '@react-navigation/native';
+
 import { useEffect, useRef, useState } from 'react';
 import {
   Image,
@@ -11,8 +17,6 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { captureRef } from 'react-native-view-shot';
-import RNFS from 'react-native-fs';
-import Share from 'react-native-share';
 
 import { getNumber } from '../utils/tinneTapGameUtils';
 
@@ -104,11 +108,6 @@ const WallpaperPreviewScreen = () => {
         >
           <Image source={require('../assets/icons/back.png')} />
         </TouchableOpacity>
-
-        <Image
-          source={tinneMasterHeaderImage}
-          style={tinneMasterHeaderLogoStyle}
-        />
 
         <View style={tinneMasterClockRow}>
           <Image source={require('../assets/images/quantImg.png')} />

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useNavigation } from '@react-navigation/native';
-import { tinneLoaderView } from '../TinneConstants/tinneLoaderView';
+import { tinneLoaderView } from '../../tinneLoaderView';
 
 const tinneMasterLoaderBg = require('../assets/images/app_background.png');
 const tinneMasterLoaderIconIOS = require('../assets/images/loader_icon.png');

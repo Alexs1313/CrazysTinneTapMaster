@@ -1,5 +1,11 @@
+// story details screen
+
+import { getNumber } from '../utils/tinneTapGameUtils';
+
+import { crazysStoriesContent } from '../[mastertaptdtaa]/crazysStories';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
+
 import {
   Image,
   ImageBackground,
@@ -11,11 +17,9 @@ import {
   useWindowDimensions,
   Platform,
 } from 'react-native';
+
 import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import { getNumber } from '../utils/tinneTapGameUtils';
-import { crazysStoriesContent } from '../TinneTapData/crazysStories';
 
 const tinneMasterSavedKey = 'SAVED_STORIES';
 
@@ -169,15 +173,6 @@ const StoryDetailsScreen = ({ route }: any) => {
           >
             <Image source={require('../assets/icons/back.png')} />
           </TouchableOpacity>
-
-          <Image
-            source={tinneMasterHeaderImage}
-            style={
-              Platform.OS === 'ios'
-                ? tinneMasterHeaderLogoIOS
-                : tinneMasterHeaderLogoAndroid
-            }
-          />
 
           <View style={tinneMasterClockRow}>
             <Image source={require('../assets/images/quantImg.png')} />

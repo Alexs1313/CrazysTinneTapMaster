@@ -1,16 +1,17 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
-import TinneTapHome from '../TapMasterScreens/TinneTapHome';
-import WelcomeTapLoader from '../TapMasterScreens/WelcomeTapLoader';
-import TapGameScreen from '../TapMasterScreens/TapGameScreen';
-import TapMasterStories from '../TapMasterScreens/TapMasterStories';
-import StoryDetailsScreen from '../TapMasterScreens/StoryDetailsScreen';
-import MasterTapWallpapers from '../TapMasterScreens/MasterTapWallpapers';
-import WallpaperPreviewScreen from '../TapMasterScreens/WallpaperPreviewScreen';
-import TinneSettings from '../TapMasterScreens/TinneSettings';
-import IntroduceScreen from '../TapMasterScreens/IntroduceScreen';
-import RegistrationScreen from '../TapMasterScreens/RegistrationScreen';
-import ProfileScreen from '../TapMasterScreens/ProfileScreen';
+import TinneTapHome from '../mastertaptinscrrns/TinneTapHome';
+import WelcomeTapLoader from '../mastertaptinscrrns/WelcomeTapLoader';
+import TapGameScreen from '../mastertaptinscrrns/TapGameScreen';
+import TapMasterStories from '../mastertaptinscrrns/TapMasterStories';
+import StoryDetailsScreen from '../mastertaptinscrrns/StoryDetailsScreen';
+import MasterTapWallpapers from '../mastertaptinscrrns/MasterTapWallpapers';
+import WallpaperPreviewScreen from '../mastertaptinscrrns/WallpaperPreviewScreen';
+import TinneSettings from '../mastertaptinscrrns/TinneSettings';
+import IntroduceScreen from '../mastertaptinscrrns/IntroduceScreen';
+
+import ProfileScreen from '../mastertaptinscrrns/ProfileScreen';
+import Mastrduogmscrn from '../mastertaptinscrrns/Mastrduogmscrn';
 
 const Stack = createStackNavigator();
 
@@ -32,7 +33,8 @@ const TapMasterNavigation = () => {
         component={WallpaperPreviewScreen}
       />
       <Stack.Screen name="TinneSettings" component={TinneSettings} />
-      <Stack.Screen name="RegistrationScreen" component={RegistrationScreen} />
+
+      <Stack.Screen name="Mastrduogmscrn" component={Mastrduogmscrn} />
       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
     </Stack.Navigator>
   );
