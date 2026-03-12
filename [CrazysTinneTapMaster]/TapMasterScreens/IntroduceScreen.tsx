@@ -289,7 +289,7 @@ const tinneMasterDescText = {
   fontSize: 18,
   fontFamily: tinneMasterSemiBoldFont,
   textAlign: 'center' as const,
-  marginTop: 20,
+  marginTop: 21,
   maxWidth: 300,
   fontWeight: '500' as const,
 };
